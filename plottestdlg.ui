@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1022</width>
-    <height>443</height>
+    <width>1064</width>
+    <height>445</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -330,7 +330,7 @@
                  <double>33554432.000000000000000</double>
                 </property>
                 <property name="value">
-                 <double>1.000000000000000</double>
+                 <double>4.000000000000000</double>
                 </property>
                </widget>
               </item>

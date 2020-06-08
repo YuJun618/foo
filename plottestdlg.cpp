@@ -344,8 +344,10 @@ void PlotTestDlg::drawFunctionModuAM(const TPlotItem &tPlotItem ,
 
     double dAmp = Vpp/2.0;
 
+    double dAmpRange = tWaveParamModuSig.Vpp/2.0+dAmp+tWaveParamModuSig.Offset;
+
     m_tPlotMain.pPlot->setAxisScale( QwtPlot::xBottom, 0, dMainF  );
-    m_tPlotMain.pPlot->setAxisScale( QwtPlot::yLeft, -dAmp*2.5, dAmp*2.5 );
+    m_tPlotMain.pPlot->setAxisScale( QwtPlot::yLeft, -dAmpRange, dAmpRange );
 
     m_tPlotMain.pMark->setValue( dMainF / 2.0, 0.0 );
 
