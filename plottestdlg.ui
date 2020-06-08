@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>754</width>
-    <height>446</height>
+    <width>1022</width>
+    <height>443</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -22,90 +22,508 @@
   <property name="styleSheet">
    <string notr="true"/>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0">
-    <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="5,1">
+  <layout class="QHBoxLayout" name="horizontalLayout_18">
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout_2" stretch="5,2">
+     <property name="spacing">
+      <number>1</number>
+     </property>
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout_2" stretch="5,2">
-       <property name="spacing">
-        <number>1</number>
+      <widget class="QwtPlot" name="qwtPlot1">
+       <property name="minimumSize">
+        <size>
+         <width>580</width>
+         <height>300</height>
+        </size>
        </property>
-       <item>
-        <widget class="QwtPlot" name="qwtPlot1">
-         <property name="canvasBackground" stdset="0">
-          <brush brushstyle="SolidPattern">
-           <color alpha="255">
-            <red>240</red>
-            <green>240</green>
-            <blue>240</blue>
-           </color>
-          </brush>
-         </property>
-         <property name="autoReplot" stdset="0">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QwtPlot" name="qwtPlot2"/>
-       </item>
-      </layout>
+       <property name="canvasBackground" stdset="0">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>240</red>
+          <green>240</green>
+          <blue>240</blue>
+         </color>
+        </brush>
+       </property>
+       <property name="autoReplot" stdset="0">
+        <bool>false</bool>
+       </property>
+      </widget>
      </item>
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout">
-       <property name="spacing">
-        <number>20</number>
+      <widget class="QwtPlot" name="qwtPlot2">
+       <property name="minimumSize">
+        <size>
+         <width>580</width>
+         <height>120</height>
+        </size>
        </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout_8">
+     <item>
+      <widget class="QGroupBox" name="groupBox_5">
+       <property name="title">
+        <string>功能选择</string>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string>波形选择</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="comboBox"/>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_17">
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <layout class="QVBoxLayout" name="verticalLayout_5">
          <item>
-          <widget class="QLabel" name="label">
-           <property name="text">
-            <string>波形选择</string>
+          <widget class="QGroupBox" name="groupBox_2">
+           <property name="title">
+            <string>信号参数</string>
            </property>
+           <layout class="QVBoxLayout" name="verticalLayout_3">
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_2">
+              <item>
+               <widget class="QLabel" name="label_2">
+                <property name="text">
+                 <string>频率</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QDoubleSpinBox" name="dsMainFreq">
+                <property name="minimumSize">
+                 <size>
+                  <width>80</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximum">
+                 <double>18000000000.000000000000000</double>
+                </property>
+                <property name="value">
+                 <double>13.000000000000000</double>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout">
+              <item>
+               <widget class="QLabel" name="label_3">
+                <property name="text">
+                 <string>幅度</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QDoubleSpinBox" name="dsMainAmpl">
+                <property name="minimumSize">
+                 <size>
+                  <width>80</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="value">
+                 <double>1.000000000000000</double>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_8">
+              <item>
+               <widget class="QLabel" name="label_8">
+                <property name="text">
+                 <string>相位</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QDoubleSpinBox" name="dsMainPhase">
+                <property name="minimumSize">
+                 <size>
+                  <width>80</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="minimum">
+                 <double>-180.000000000000000</double>
+                </property>
+                <property name="maximum">
+                 <double>180.000000000000000</double>
+                </property>
+                <property name="value">
+                 <double>90.000000000000000</double>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_9">
+              <item>
+               <widget class="QLabel" name="label_9">
+                <property name="text">
+                 <string>偏置</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QDoubleSpinBox" name="dsMainOffset">
+                <property name="minimumSize">
+                 <size>
+                  <width>80</width>
+                  <height>0</height>
+                 </size>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
           </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="comboBox">
-           <item>
-            <property name="text">
-             <string>SIN</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Pulse</string>
-            </property>
-           </item>
+          <widget class="QGroupBox" name="groupBox">
+           <property name="title">
+            <string>模拟调制参数</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout">
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_5">
+              <item>
+               <widget class="QLabel" name="label_5">
+                <property name="text">
+                 <string>调制频率</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QDoubleSpinBox" name="dsAModuFreq">
+                <property name="minimumSize">
+                 <size>
+                  <width>80</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximum">
+                 <double>80000000.000000000000000</double>
+                </property>
+                <property name="value">
+                 <double>2.000000000000000</double>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_6">
+              <item>
+               <widget class="QLabel" name="label_6">
+                <property name="text">
+                 <string>调制深度</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QDoubleSpinBox" name="dsAModuDeep">
+                <property name="minimumSize">
+                 <size>
+                  <width>80</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="value">
+                 <double>0.500000000000000</double>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_19">
+              <item>
+               <widget class="QLabel" name="label_17">
+                <property name="text">
+                 <string>相位</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QDoubleSpinBox" name="dsAModuPhase">
+                <property name="minimumSize">
+                 <size>
+                  <width>80</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="minimum">
+                 <double>-180.000000000000000</double>
+                </property>
+                <property name="maximum">
+                 <double>180.000000000000000</double>
+                </property>
+                <property name="value">
+                 <double>90.000000000000000</double>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_7">
+              <item>
+               <widget class="QLabel" name="label_7">
+                <property name="text">
+                 <string>直流偏置</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QDoubleSpinBox" name="dsAModuOffset">
+                <property name="minimumSize">
+                 <size>
+                  <width>80</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="value">
+                 <double>1.000000000000000</double>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_4">
+              <item>
+               <widget class="QLabel" name="label_4">
+                <property name="text">
+                 <string>FM调制系数</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QDoubleSpinBox" name="dsAModuFMDcoef">
+                <property name="minimumSize">
+                 <size>
+                  <width>80</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximum">
+                 <double>33554432.000000000000000</double>
+                </property>
+                <property name="value">
+                 <double>1.000000000000000</double>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
           </widget>
          </item>
         </layout>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <layout class="QVBoxLayout" name="verticalLayout_7">
          <item>
-          <widget class="QLabel" name="label_2">
-           <property name="text">
-            <string>频率</string>
+          <widget class="QGroupBox" name="groupBox_4">
+           <property name="title">
+            <string>数字调制参数</string>
            </property>
+           <layout class="QVBoxLayout" name="verticalLayout_4">
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_12">
+              <item>
+               <widget class="QLabel" name="label_12">
+                <property name="text">
+                 <string>采样率</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QDoubleSpinBox" name="dsDModuSampRate">
+                <property name="minimumSize">
+                 <size>
+                  <width>80</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximum">
+                 <double>80000000.000000000000000</double>
+                </property>
+                <property name="value">
+                 <double>2.000000000000000</double>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_13">
+              <item>
+               <widget class="QLabel" name="label_13">
+                <property name="text">
+                 <string>滤波器</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QComboBox" name="cbDModuFilter"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_14">
+              <item>
+               <widget class="QLabel" name="label_14">
+                <property name="text">
+                 <string>滤波符号截断</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QDoubleSpinBox" name="dsAModuDeep_4">
+                <property name="minimumSize">
+                 <size>
+                  <width>80</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="value">
+                 <double>50.000000000000000</double>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_15">
+              <item>
+               <widget class="QLabel" name="label_15">
+                <property name="text">
+                 <string>滤波滚降系数</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QDoubleSpinBox" name="dsAModuDeep_5">
+                <property name="minimumSize">
+                 <size>
+                  <width>80</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="value">
+                 <double>50.000000000000000</double>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_16">
+              <item>
+               <widget class="QLabel" name="label_16">
+                <property name="text">
+                 <string>符号率</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QDoubleSpinBox" name="dsAModuDeep_6">
+                <property name="minimumSize">
+                 <size>
+                  <width>80</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="value">
+                 <double>50.000000000000000</double>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
           </widget>
          </item>
          <item>
-          <widget class="QDoubleSpinBox" name="doubleSpinBox_2"/>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout">
-         <item>
-          <widget class="QLabel" name="label_3">
-           <property name="text">
-            <string>幅度</string>
+          <widget class="QGroupBox" name="groupBox_3">
+           <property name="title">
+            <string>脉冲调制参数</string>
            </property>
+           <layout class="QVBoxLayout" name="verticalLayout_6">
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_10">
+              <item>
+               <widget class="QLabel" name="label_10">
+                <property name="text">
+                 <string>调制频率</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QDoubleSpinBox" name="dsAModuFreq_2">
+                <property name="minimumSize">
+                 <size>
+                  <width>80</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximum">
+                 <double>80000000.000000000000000</double>
+                </property>
+                <property name="value">
+                 <double>2.000000000000000</double>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_11">
+              <item>
+               <widget class="QLabel" name="label_11">
+                <property name="text">
+                 <string>占空比</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QDoubleSpinBox" name="dsAModuDeep_2">
+                <property name="minimumSize">
+                 <size>
+                  <width>80</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="value">
+                 <double>50.000000000000000</double>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
           </widget>
-         </item>
-         <item>
-          <widget class="QDoubleSpinBox" name="doubleSpinBox"/>
          </item>
         </layout>
        </item>
@@ -124,5 +542,153 @@
   </customwidget>
  </customwidgets>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>dsMainFreq</sender>
+   <signal>valueChanged(double)</signal>
+   <receiver>PlotTestDlg</receiver>
+   <slot>paramChanged(double)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>794</x>
+     <y>157</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>816</x>
+     <y>115</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>dsMainAmpl</sender>
+   <signal>valueChanged(double)</signal>
+   <receiver>PlotTestDlg</receiver>
+   <slot>paramChanged(double)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>794</x>
+     <y>185</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>796</x>
+     <y>120</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>dsMainPhase</sender>
+   <signal>valueChanged(double)</signal>
+   <receiver>PlotTestDlg</receiver>
+   <slot>paramChanged(double)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>794</x>
+     <y>213</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>781</x>
+     <y>132</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>dsMainOffset</sender>
+   <signal>valueChanged(double)</signal>
+   <receiver>PlotTestDlg</receiver>
+   <slot>paramChanged(double)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>794</x>
+     <y>241</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>722</x>
+     <y>104</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>dsAModuFreq</sender>
+   <signal>valueChanged(double)</signal>
+   <receiver>PlotTestDlg</receiver>
+   <slot>paramChanged(double)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>794</x>
+     <y>305</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>814</x>
+     <y>279</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>dsAModuDeep</sender>
+   <signal>valueChanged(double)</signal>
+   <receiver>PlotTestDlg</receiver>
+   <slot>paramChanged(double)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>794</x>
+     <y>333</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>802</x>
+     <y>284</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>dsAModuOffset</sender>
+   <signal>valueChanged(double)</signal>
+   <receiver>PlotTestDlg</receiver>
+   <slot>paramChanged(double)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>722</x>
+     <y>375</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>661</x>
+     <y>438</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>dsAModuFMDcoef</sender>
+   <signal>valueChanged(double)</signal>
+   <receiver>PlotTestDlg</receiver>
+   <slot>paramChanged(double)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>778</x>
+     <y>407</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>796</x>
+     <y>436</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>dsAModuPhase</sender>
+   <signal>valueChanged(double)</signal>
+   <receiver>PlotTestDlg</receiver>
+   <slot>paramChanged(double)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>745</x>
+     <y>350</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>739</x>
+     <y>436</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>paramChanged(double)</slot>
+ </slots>
 </ui>
