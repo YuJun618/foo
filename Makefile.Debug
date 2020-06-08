@@ -14,10 +14,10 @@ CXX           = cl
 DEFINES       = -DUNICODE -DWIN32 -DQT_QML_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
 CFLAGS        = -nologo -Zc:wchar_t -FS -Zi -MDd -W3 /Fddebug\qt_testproj.vc.pdb $(DEFINES)
 CXXFLAGS      = -nologo -Zc:wchar_t -FS -Zi -MDd -GR -W3 -w34100 -w34189 -w44996 -EHsc /Fddebug\qt_testproj.vc.pdb $(DEFINES)
-INCPATH       = -I. -I..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include -I..\..\WORK-YUJ\DriverDevelop\AMC4336_proj\AMC4336_driver -IC:\Qt\Qt5.6.2\5.6\msvc2013\include -IC:\Qt\Qt5.6.2\5.6\msvc2013\include\QtWidgets -IC:\Qt\Qt5.6.2\5.6\msvc2013\include\QtGui -IC:\Qt\Qt5.6.2\5.6\msvc2013\include\QtANGLE -IC:\Qt\Qt5.6.2\5.6\msvc2013\include\QtCore -Idebug -I. -IC:\Qt\Qt5.6.2\5.6\msvc2013\mkspecs\win32-msvc2013 
+INCPATH       = -I. -IE:\open_source\qwt-6.1.4\qwt-6.1.4\export\include -IC:\Qt\Qt5.6.2\5.6\msvc2013\include -IC:\Qt\Qt5.6.2\5.6\msvc2013\include\QtWidgets -IC:\Qt\Qt5.6.2\5.6\msvc2013\include\QtGui -IC:\Qt\Qt5.6.2\5.6\msvc2013\include\QtANGLE -IC:\Qt\Qt5.6.2\5.6\msvc2013\include\QtCore -Idebug -I. -IC:\Qt\Qt5.6.2\5.6\msvc2013\mkspecs\win32-msvc2013 
 LINKER        = link
 LFLAGS        = /NOLOGO /DYNAMICBASE /NXCOMPAT /DEBUG /SUBSYSTEM:WINDOWS "/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'"
-LIBS          = /LIBPATH:C:\Qt\Qt5.6.2\5.6\msvc2013\lib C:\Qt\Qt5.6.2\5.6\msvc2013\lib\qtmaind.lib shell32.lib /LIBPATH:C:\utils\my_sql\my_sql\lib /LIBPATH:C:\utils\postgresql\pgsql\lib E:\open_source\qwt-6.1.4\qwt-6.1.4\export\lib\qwtd.lib E:\WORK-YUJ\DriverDevelop\AMC4336_proj\Debug\AMC4336_driver.lib C:\Qt\Qt5.6.2\5.6\msvc2013\lib\Qt5Widgetsd.lib C:\Qt\Qt5.6.2\5.6\msvc2013\lib\Qt5Guid.lib C:\Qt\Qt5.6.2\5.6\msvc2013\lib\Qt5Cored.lib 
+LIBS          = /LIBPATH:C:\Qt\Qt5.6.2\5.6\msvc2013\lib C:\Qt\Qt5.6.2\5.6\msvc2013\lib\qtmaind.lib shell32.lib /LIBPATH:C:\utils\my_sql\my_sql\lib /LIBPATH:C:\utils\postgresql\pgsql\lib E:\open_source\qwt-6.1.4\qwt-6.1.4\export\lib\qwtd.lib C:\Qt\Qt5.6.2\5.6\msvc2013\lib\Qt5Widgetsd.lib C:\Qt\Qt5.6.2\5.6\msvc2013\lib\Qt5Guid.lib C:\Qt\Qt5.6.2\5.6\msvc2013\lib\Qt5Cored.lib 
 QMAKE         = C:\Qt\Qt5.6.2\5.6\msvc2013\bin\qmake.exe
 IDC           = idc
 IDL           = midl
@@ -260,7 +260,7 @@ debug\moc_dialog.cpp: C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtWidgets\QDialog \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtGui\qvector2d.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtGui\qtouchdevice.h \
 		dialog.h
-	C:\Qt\Qt5.6.2\5.6\msvc2013\bin\moc.exe $(DEFINES) -D_MSC_VER=1800 -D_WIN32 -IC:/Qt/Qt5.6.2/5.6/msvc2013/mkspecs/win32-msvc2013 -IE:/WORK-INSTR-SOFTWARE/qt_testproj -IE:/open_source/qwt-6.1.4/qwt-6.1.4/export/include -IE:/WORK-YUJ/DriverDevelop/AMC4336_proj/AMC4336_driver -IC:/Qt/Qt5.6.2/5.6/msvc2013/include -IC:/Qt/Qt5.6.2/5.6/msvc2013/include/QtWidgets -IC:/Qt/Qt5.6.2/5.6/msvc2013/include/QtGui -IC:/Qt/Qt5.6.2/5.6/msvc2013/include/QtANGLE -IC:/Qt/Qt5.6.2/5.6/msvc2013/include/QtCore dialog.h -o debug\moc_dialog.cpp
+	C:\Qt\Qt5.6.2\5.6\msvc2013\bin\moc.exe $(DEFINES) -D_MSC_VER=1800 -D_WIN32 -IC:/Qt/Qt5.6.2/5.6/msvc2013/mkspecs/win32-msvc2013 -ID:/WORK-QT/qt_testproj/foo.git/trunk -IE:/open_source/qwt-6.1.4/qwt-6.1.4/export/include -IC:/Qt/Qt5.6.2/5.6/msvc2013/include -IC:/Qt/Qt5.6.2/5.6/msvc2013/include/QtWidgets -IC:/Qt/Qt5.6.2/5.6/msvc2013/include/QtGui -IC:/Qt/Qt5.6.2/5.6/msvc2013/include/QtANGLE -IC:/Qt/Qt5.6.2/5.6/msvc2013/include/QtCore dialog.h -o debug\moc_dialog.cpp
 
 debug\moc_switchcontrol.cpp: C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtWidgets\QWidget \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtWidgets\qwidget.h \
@@ -370,9 +370,9 @@ debug\moc_switchcontrol.cpp: C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtWidgets\QWidge
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtCore\qtimer.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtCore\qbasictimer.h \
 		switchcontrol.h
-	C:\Qt\Qt5.6.2\5.6\msvc2013\bin\moc.exe $(DEFINES) -D_MSC_VER=1800 -D_WIN32 -IC:/Qt/Qt5.6.2/5.6/msvc2013/mkspecs/win32-msvc2013 -IE:/WORK-INSTR-SOFTWARE/qt_testproj -IE:/open_source/qwt-6.1.4/qwt-6.1.4/export/include -IE:/WORK-YUJ/DriverDevelop/AMC4336_proj/AMC4336_driver -IC:/Qt/Qt5.6.2/5.6/msvc2013/include -IC:/Qt/Qt5.6.2/5.6/msvc2013/include/QtWidgets -IC:/Qt/Qt5.6.2/5.6/msvc2013/include/QtGui -IC:/Qt/Qt5.6.2/5.6/msvc2013/include/QtANGLE -IC:/Qt/Qt5.6.2/5.6/msvc2013/include/QtCore switchcontrol.h -o debug\moc_switchcontrol.cpp
+	C:\Qt\Qt5.6.2\5.6\msvc2013\bin\moc.exe $(DEFINES) -D_MSC_VER=1800 -D_WIN32 -IC:/Qt/Qt5.6.2/5.6/msvc2013/mkspecs/win32-msvc2013 -ID:/WORK-QT/qt_testproj/foo.git/trunk -IE:/open_source/qwt-6.1.4/qwt-6.1.4/export/include -IC:/Qt/Qt5.6.2/5.6/msvc2013/include -IC:/Qt/Qt5.6.2/5.6/msvc2013/include/QtWidgets -IC:/Qt/Qt5.6.2/5.6/msvc2013/include/QtGui -IC:/Qt/Qt5.6.2/5.6/msvc2013/include/QtANGLE -IC:/Qt/Qt5.6.2/5.6/msvc2013/include/QtCore switchcontrol.h -o debug\moc_switchcontrol.cpp
 
-debug\moc_plottestdlg.cpp: ..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_plot_marker.h \
+debug\moc_plottestdlg.cpp: E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_plot_marker.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtGui\qpen.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtGui\qcolor.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtGui\qrgb.h \
@@ -456,12 +456,12 @@ debug\moc_plottestdlg.cpp: ..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtCore\qhash.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtCore\qsharedpointer_impl.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtGui\qfont.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_global.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_plot_item.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_text.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_legend_data.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_graphic.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_null_paintdevice.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_global.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_plot_item.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_text.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_legend_data.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_graphic.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_null_paintdevice.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtGui\qpaintengine.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtGui\qpainter.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtGui\qtextoption.h \
@@ -474,21 +474,21 @@ debug\moc_plottestdlg.cpp: ..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtCore\qlocale.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtCore\qset.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtCore\qcontiguouscache.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_plot_curve.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_plot_seriesitem.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_scale_div.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_interval.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_series_data.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_samples.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_point_3d.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_point_polar.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_math.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_plot_curve.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_plot_seriesitem.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_scale_div.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_interval.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_series_data.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_samples.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_point_3d.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_point_polar.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_math.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtCore\qmath.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_series_store.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_plot.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_plot_dict.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_scale_map.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_transform.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_series_store.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_plot.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_plot_dict.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_scale_map.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_transform.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtWidgets\qframe.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtWidgets\qwidget.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtGui\qpalette.h \
@@ -505,7 +505,7 @@ debug\moc_plottestdlg.cpp: ..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtWidgets\QDialog \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtWidgets\qdialog.h \
 		plottestdlg.h
-	C:\Qt\Qt5.6.2\5.6\msvc2013\bin\moc.exe $(DEFINES) -D_MSC_VER=1800 -D_WIN32 -IC:/Qt/Qt5.6.2/5.6/msvc2013/mkspecs/win32-msvc2013 -IE:/WORK-INSTR-SOFTWARE/qt_testproj -IE:/open_source/qwt-6.1.4/qwt-6.1.4/export/include -IE:/WORK-YUJ/DriverDevelop/AMC4336_proj/AMC4336_driver -IC:/Qt/Qt5.6.2/5.6/msvc2013/include -IC:/Qt/Qt5.6.2/5.6/msvc2013/include/QtWidgets -IC:/Qt/Qt5.6.2/5.6/msvc2013/include/QtGui -IC:/Qt/Qt5.6.2/5.6/msvc2013/include/QtANGLE -IC:/Qt/Qt5.6.2/5.6/msvc2013/include/QtCore plottestdlg.h -o debug\moc_plottestdlg.cpp
+	C:\Qt\Qt5.6.2\5.6\msvc2013\bin\moc.exe $(DEFINES) -D_MSC_VER=1800 -D_WIN32 -IC:/Qt/Qt5.6.2/5.6/msvc2013/mkspecs/win32-msvc2013 -ID:/WORK-QT/qt_testproj/foo.git/trunk -IE:/open_source/qwt-6.1.4/qwt-6.1.4/export/include -IC:/Qt/Qt5.6.2/5.6/msvc2013/include -IC:/Qt/Qt5.6.2/5.6/msvc2013/include/QtWidgets -IC:/Qt/Qt5.6.2/5.6/msvc2013/include/QtGui -IC:/Qt/Qt5.6.2/5.6/msvc2013/include/QtANGLE -IC:/Qt/Qt5.6.2/5.6/msvc2013/include/QtCore plottestdlg.h -o debug\moc_plottestdlg.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -516,8 +516,8 @@ ui_dialog.h: dialog.ui
 	C:\Qt\Qt5.6.2\5.6\msvc2013\bin\uic.exe dialog.ui -o ui_dialog.h
 
 ui_plottestdlg.h: plottestdlg.ui \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_plot.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_global.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_plot.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_global.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtCore\qglobal.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtCore\qconfig.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtCore\qfeatures.h \
@@ -547,7 +547,7 @@ ui_plottestdlg.h: plottestdlg.ui \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtCore\qmutex.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtCore\qnumeric.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtCore\qversiontagging.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_text.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_text.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtCore\qstring.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtCore\qchar.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtCore\qbytearray.h \
@@ -581,11 +581,11 @@ ui_plottestdlg.h: plottestdlg.ui \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtCore\qvarlengtharray.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtCore\qcontainerfwd.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtCore\qobject_impl.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_plot_dict.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_plot_item.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_legend_data.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_graphic.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_null_paintdevice.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_plot_dict.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_plot_item.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_legend_data.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_graphic.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_null_paintdevice.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtGui\qpaintdevice.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtCore\qrect.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtCore\qmargins.h \
@@ -619,9 +619,9 @@ ui_plottestdlg.h: plottestdlg.ui \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtCore\qlocale.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtCore\qset.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtCore\qcontiguouscache.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_scale_map.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_transform.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_interval.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_scale_map.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_transform.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_interval.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtWidgets\qframe.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtWidgets\qwidget.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtGui\qpalette.h \
@@ -916,32 +916,32 @@ debug\dialog.obj: dialog.cpp dialog.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtWidgets\qlayoutitem.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtWidgets\qgridlayout.h \
 		plottestdlg.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_plot_marker.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_plot_marker.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtGui\qpen.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_global.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_plot_item.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_text.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_legend_data.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_graphic.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_null_paintdevice.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_global.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_plot_item.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_text.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_legend_data.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_graphic.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_null_paintdevice.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtGui\qpaintengine.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtGui\qpainter.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtGui\qtextoption.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_plot_curve.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_plot_seriesitem.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_scale_div.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_interval.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_series_data.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_samples.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_point_3d.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_point_polar.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_math.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_plot_curve.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_plot_seriesitem.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_scale_div.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_interval.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_series_data.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_samples.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_point_3d.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_point_polar.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_math.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtCore\qmath.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_series_store.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_plot.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_plot_dict.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_scale_map.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_transform.h
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_series_store.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_plot.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_plot_dict.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_scale_map.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_transform.h
 
 debug\switchcontrol.obj: switchcontrol.cpp C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtGui\QPainter \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtGui\qpainter.h \
@@ -1058,7 +1058,7 @@ debug\switchcontrol.obj: switchcontrol.cpp C:\Qt\Qt5.6.2\5.6\msvc2013\include\Qt
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtCore\qbasictimer.h
 
 debug\plottestdlg.obj: plottestdlg.cpp plottestdlg.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_plot_marker.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_plot_marker.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtGui\qpen.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtGui\qcolor.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtGui\qrgb.h \
@@ -1142,12 +1142,12 @@ debug\plottestdlg.obj: plottestdlg.cpp plottestdlg.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtCore\qhash.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtCore\qsharedpointer_impl.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtGui\qfont.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_global.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_plot_item.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_text.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_legend_data.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_graphic.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_null_paintdevice.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_global.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_plot_item.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_text.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_legend_data.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_graphic.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_null_paintdevice.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtGui\qpaintengine.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtGui\qpainter.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtGui\qtextoption.h \
@@ -1160,21 +1160,21 @@ debug\plottestdlg.obj: plottestdlg.cpp plottestdlg.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtCore\qlocale.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtCore\qset.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtCore\qcontiguouscache.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_plot_curve.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_plot_seriesitem.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_scale_div.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_interval.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_series_data.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_samples.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_point_3d.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_point_polar.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_math.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_plot_curve.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_plot_seriesitem.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_scale_div.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_interval.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_series_data.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_samples.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_point_3d.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_point_polar.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_math.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtCore\qmath.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_series_store.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_plot.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_plot_dict.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_scale_map.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_transform.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_series_store.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_plot.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_plot_dict.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_scale_map.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_transform.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtWidgets\qframe.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtWidgets\qwidget.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtGui\qpalette.h \
@@ -1221,12 +1221,13 @@ debug\plottestdlg.obj: plottestdlg.cpp plottestdlg.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtCore\qabstractitemmodel.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtWidgets\QDoubleSpinBox \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtWidgets\qspinbox.h \
-		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtWidgets\QGridLayout \
-		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtWidgets\qgridlayout.h \
+		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtWidgets\QGroupBox \
+		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtWidgets\qgroupbox.h \
+		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtWidgets\QHBoxLayout \
+		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtWidgets\qboxlayout.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtWidgets\qlayout.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtWidgets\qlayoutitem.h \
-		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtWidgets\qboxlayout.h \
-		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtWidgets\QHBoxLayout \
+		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtWidgets\qgridlayout.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtWidgets\QHeaderView \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtWidgets\qheaderview.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtWidgets\qabstractitemview.h \
@@ -1235,9 +1236,12 @@ debug\plottestdlg.obj: plottestdlg.cpp plottestdlg.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtWidgets\QLabel \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtWidgets\qlabel.h \
 		C:\Qt\Qt5.6.2\5.6\msvc2013\include\QtWidgets\QVBoxLayout \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_plot_canvas.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_painter.h \
-		..\..\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_plot_grid.h
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_plot_canvas.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_painter.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_plot_grid.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_scale_draw.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_abstract_scale_draw.h \
+		E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include\qwt_scale_widget.h
 
 debug\moc_dialog.obj: debug\moc_dialog.cpp 
 
