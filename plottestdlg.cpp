@@ -8,6 +8,8 @@
 #include "math.h"
 #include "qwt_scale_draw.h"
 #include "qwt_scale_widget.h"
+#include "delegate.h"
+#include "qstandarditemmodel.h"
 
 #define PT_NUM 10000
 
@@ -161,6 +163,7 @@ PlotTestDlg::PlotTestDlg(QWidget *parent) :
     m_tPlotModu.pPlot->setAxisScale( QwtPlot::xBottom, 0, 2  );
     m_tPlotModu.pPlot->setAxisScale( QwtPlot::yLeft, -1, 1 );
     m_tPlotModu.pPlot->enableAxis( QwtPlot::yLeft , false );
+    m_tPlotModu.pPlot->enableAxis( QwtPlot::xBottom , false );
 
     QList<double> ticks[QwtScaleDiv::NTickTypes];
     ticks[QwtScaleDiv::MajorTick] << 0 << 1 << 2;  //只在60和120个sample点tick
@@ -217,7 +220,7 @@ PlotTestDlg::PlotTestDlg(QWidget *parent) :
     // 抗锯齿设置
     m_tPlotModu.pCurve->setRenderHint(QwtPlotItem::RenderAntialiased, true );
     // 设置曲线插值
-    m_tPlotModu.pCurve->setCurveAttribute(QwtPlotCurve::Fitted,true);
+//    m_tPlotModu.pCurve->setCurveAttribute(QwtPlotCurve::Fitted,true);
     // 关联曲线
     m_tPlotModu.pCurve->attach( m_tPlotModu.pPlot );
 
@@ -232,8 +235,10 @@ PlotTestDlg::PlotTestDlg(QWidget *parent) :
                        tWaveCarr , 10 );
 
     QStringList strListFunctions;
-    strListFunctions<< "SIN"  << "AM" << "FM"<< "PulseM" << "ASK" << "FSK" << "PSK" << "QAM" ;
+    strListFunctions<< "COS"  << "AM" << "FM"<< "PM" << "PulseM" << "ASK" << "FSK" << "PSK" << "QAM" ;
     ui->comboBox->addItems( strListFunctions );
+
+    initBitSequenceTableView();
 }
 
 PlotTestDlg::~PlotTestDlg()
@@ -258,7 +263,7 @@ void PlotTestDlg::drawFunctionSin(const TPlotItem &tPlotItem , const TWaveFormPa
     for ( int i = 0 ; i < PT_NUM ; i++  )
     {
         tPlotItem.x[i] = double(i)*dOffsetX;
-        double d = (dAmp)*sin(2*M_PI*tPlotItem.x[i] + p_cof) + tWaveParam.Offset;// cos(2.0*M_PI*1.0/(1.0e-9*m_pdzSampCoordX[i]) );
+        double d = (dAmp)*cos(2*M_PI*tPlotItem.x[i] + p_cof) + tWaveParam.Offset;// cos(2.0*M_PI*1.0/(1.0e-9*m_pdzSampCoordX[i]) );
         tPlotItem.y[i] = d;
     }
 
@@ -358,8 +363,8 @@ void PlotTestDlg::drawFunctionModuAM(const TPlotItem &tPlotItem ,
     for ( int i = 0 ; i < PT_NUM ; i++  )
     {
         m_tPlotMain.x[i] = double(i)*dOffsetMain;
-        double dAmpSin = (tWaveParamModuSig.Vpp/2.0)*sin(2*M_PI* double(i)*dOffsetModu + dPhaseCof*tWaveParamModuSig.Phase ) + tWaveParamModuSig.Offset;
-        m_tPlotMain.y[i] = (dAmp+dAmpSin)*sin(2*M_PI*m_tPlotMain.x[i] + dPhaseCof*tWaveParamCarrierSig.Phase) + tWaveParamCarrierSig.Offset;
+        double dAmpSin = (tWaveParamModuSig.Vpp/2.0)*cos(2*M_PI* double(i)*dOffsetModu + dPhaseCof*tWaveParamModuSig.Phase ) + tWaveParamModuSig.Offset;
+        m_tPlotMain.y[i] = (dAmp+dAmpSin)*cos(2*M_PI*m_tPlotMain.x[i] + dPhaseCof*tWaveParamCarrierSig.Phase) + tWaveParamCarrierSig.Offset;
     }
 
     // 设置采样数据
@@ -404,6 +409,79 @@ void PlotTestDlg::drawFunctionModuFM(const TPlotItem &tPlotItem,
     tPlotItem.pPlot->replot();
 }
 
+void PlotTestDlg::drawFunctionModuPM(const TPlotItem &tPlotItem, const TWaveFormParamBase &tWaveParamModuSig, int nDrawPeriodModuSigCount, const TWaveFormParamBase &tWaveParamCarrierSig, int nDrawPeriodCarrierSigCount,double D)
+{
+    double dMainF = nDrawPeriodCarrierSigCount;
+    double Vpp = tWaveParamCarrierSig.Vpp;
+
+    double dAmp = Vpp/2.0;
+
+    tPlotItem.pPlot->setAxisScale( QwtPlot::xBottom, 0, dMainF  );
+    tPlotItem.pPlot->setAxisScale( QwtPlot::yLeft, -dAmp, dAmp );
+
+    tPlotItem.pMark->setValue( dMainF / 2.0, 0.0 );
+
+
+    double dPhaseCof = M_PI/180.0;
+    double dOffsetMain = dMainF/PT_NUM;
+    double dOffsetModu = (double)nDrawPeriodModuSigCount/(double)PT_NUM;
+    for ( int i = 0 ; i < PT_NUM ; i++  )
+    {
+        tPlotItem.x[i] = double(i)*dOffsetMain;
+        double dModuX = double(i)*dOffsetModu;
+        tPlotItem.y[i] = (dAmp)*cos(2*M_PI*m_tPlotMain.x[i] + D*cos(2*M_PI*dModuX));
+    }
+
+    // 设置采样数据
+    tPlotItem.pCurve->setSamples( m_tPlotMain.x , m_tPlotMain.y , PT_NUM );
+
+    // 重绘制
+    tPlotItem.pPlot->replot();
+}
+
+void PlotTestDlg::drawFunctionModuPulse(const TPlotItem &tPlotItem, const TWaveFormParamPulse &tWaveParamModuSig, int nDrawPeriodModuSigCount, const TWaveFormParamBase &tWaveParamCarrierSig, int nDrawPeriodCarrierSigCount)
+{
+    double dMainF = nDrawPeriodCarrierSigCount;
+    double Vpp = tWaveParamCarrierSig.Vpp;
+
+    double dAmp = Vpp/2.0;
+
+    m_tPlotMain.pPlot->setAxisScale( QwtPlot::xBottom, 0, dMainF  );
+    m_tPlotMain.pPlot->setAxisScale( QwtPlot::yLeft, -dAmp, dAmp );
+
+    m_tPlotMain.pMark->setValue( dMainF / 2.0, 0.0 );
+
+
+    double dPhaseCof = M_PI/180.0;
+    double dOffsetMain = dMainF/PT_NUM;
+    double dOffsetModu = (double)nDrawPeriodModuSigCount/(double)PT_NUM;
+    double D = tWaveParamModuSig.width/tWaveParamModuSig.Period;
+    for ( int i = 0 ; i < PT_NUM ; i++  )
+    {
+        tPlotItem.x[i] = double(i)*dOffsetMain;
+        double dModuX = double(i)*dOffsetModu;
+        double x = dModuX - ((int)dModuX)*1.0;
+        if ( x >= 0 &&  x < D )
+        {
+            tPlotItem.y[i] = (dAmp)*cos(2*M_PI*tPlotItem.x[i] + dPhaseCof*tWaveParamCarrierSig.Phase) + tWaveParamCarrierSig.Offset;
+        }
+        else if ( x >= D && x < 1 )
+        {
+            tPlotItem.y[i] = tWaveParamCarrierSig.Offset;
+        }
+        else
+        {
+
+        }
+    }
+
+    // 设置采样数据
+    m_tPlotMain.pCurve->setSamples( m_tPlotMain.x , m_tPlotMain.y , PT_NUM );
+
+    // 重绘制
+    m_tPlotMain.pPlot->replot();
+}
+
 void PlotTestDlg::getParamBase(TWaveFormParamBase &tWaveParamModuSig)
 {
     double dFreq = ui->dsMainFreq->value();
@@ -424,6 +502,68 @@ void PlotTestDlg::getParamAModu(TWaveFormParamBase &tWaveParamModuSig)
     tWaveParamModuSig = tBase;
 }
 
+void PlotTestDlg::getParamPulse(TWaveFormParamPulse &tWaveParamPulse)
+{
+    double dFreq = ui->dsPModuFreq->value();
+    double dDuty = ui->dsPModuDuty->value();
+    double dWidth = (1.0/dFreq)*dDuty/100.0;
+    TWaveFormParamPulse tPulse( 2.0 , 0.0,  1.0/dFreq , 0.0 , dWidth , 0 , 0 );
+    tWaveParamPulse = tPulse;
+}
+
+void PlotTestDlg::initBitSequenceTableView()
+{
+    int nRowCount = 15;
+    int nColumnCount = 4;
+
+//    ui->tableView->verticalHeader()->setDefaultSectionSize(ui->tableView->width()/nColumnCount);
+    ui->tableView->horizontalHeader()->setDefaultSectionSize(ui->tableView->width()/nColumnCount);
+    ui->tableView->horizontalHeader()->setVisible( false );
+    ui->tableView->verticalHeader()->setVisible( false );
+
+    static QStandardItemModel model(nRowCount, nColumnCount);
+    ui->tableView->setModel(&model);
+
+
+    static QStyledItemDelegate delegate;
+    ui->tableView->setItemDelegate(&delegate);
+
+    ui->tableView->horizontalHeader()->setStretchLastSection(true);
+
+    for (int row = 0; row < nRowCount; ++row)
+    {
+        for (int column = 0; column < nColumnCount; ++column)
+        {
+            QModelIndex index = model.index(row, column, QModelIndex());
+            model.setData(index, column%2 );
+            model.item( row , column )->setTextAlignment( Qt::AlignCenter );
+        }
+    }
+    ui->tableView->setWindowTitle(QObject::tr("Spin Box Delegate"));
+
+    ui->tableView->setStyleSheet( "QHeaderView::section {\
+                                  background: rgb(255, 255, 127);\
+                                  }"
+                                    "QHeaderView::section:first\
+                                    {\
+                                        color:black;\
+                                        height: 30px;\
+                                        font: 11pt \"微软雅黑\";\
+                                    }\
+                                    QHeaderView::section:middle\
+                                    {\
+                                        color:black;\
+                                        height: 30px;\
+                                        font: 11pt \"微软雅黑\";\
+                                    }\
+                                    QHeaderView::section:last\
+                                    {\
+                                        color:black;\
+                                        height: 30px;\
+                                        font: 11pt \"微软雅黑\";\
+                                    }");
+}
+
 void PlotTestDlg::on_comboBox_currentIndexChanged(int index)
 {
     switch ( index )
@@ -436,7 +576,7 @@ void PlotTestDlg::on_comboBox_currentIndexChanged(int index)
         drawFunctionSin( m_tPlotModu , tBase , 2 );
         break;
     }
-    case 1: // am
+    case 1: // amod-am
     {
         TWaveFormParamBase tMain;
         getParamBase( tMain );
@@ -449,7 +589,7 @@ void PlotTestDlg::on_comboBox_currentIndexChanged(int index)
                             tMain , 2*dFreqCountCoef );
         break;
     }
-    case 2: // fm
+    case 2: // amod-fm
     {
         TWaveFormParamBase tMain;
         getParamBase( tMain );
@@ -461,6 +601,32 @@ void PlotTestDlg::on_comboBox_currentIndexChanged(int index)
         drawFunctionModuFM( m_tPlotMain ,
                             tAModu , 2 ,
                             tMain , 2*dFreqCountCoef , dFMDCoef );
+        break;
+    }
+    case 3: // amod-pm
+    {
+        TWaveFormParamBase tMain;
+        getParamBase( tMain );
+        TWaveFormParamBase tAModu;
+        getParamAModu( tAModu );
+        drawFunctionSin( m_tPlotModu , tAModu , 2 );
+        double dFreqCountCoef = (1.0/tMain.Period)/(1.0/tAModu.Period);
+        double dFMDCoef = ui->dsAModuFMDcoef->value();
+        drawFunctionModuPM( m_tPlotMain ,
+                            tAModu , 2 ,
+                            tMain , 2*dFreqCountCoef , dFMDCoef );
+        break;
+    }
+
+    case 4: // pmod
+    {
+        TWaveFormParamBase tMain;
+        getParamBase( tMain );
+        TWaveFormParamPulse tPulse;
+        getParamPulse( tPulse );
+        drawFunctionPulse( m_tPlotModu , tPulse , 2 );
+        double dFreqCountCoef = (1.0/tMain.Period)/(1.0/tPulse.Period);
+        drawFunctionModuPulse( m_tPlotMain , tPulse , 2 , tMain , 2*dFreqCountCoef );
         break;
     }
     default:

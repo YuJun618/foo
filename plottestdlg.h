@@ -35,6 +35,13 @@ struct TWaveFormParamPulse: public TWaveFormParamBase
     double width; // 脉宽（ns-纳秒）
     double leading; // 上升沿（ns-纳秒）
     double trailing; // 下降沿（ns-纳秒）
+    TWaveFormParamPulse():TWaveFormParamBase()
+    {
+        width = 0;
+        leading = 0;
+        trailing = 0;
+    }
+
     TWaveFormParamPulse( double Vpp, double Phase,  double Period , double Offset ,
                          double width , double leading , double trailing ):TWaveFormParamBase(Vpp, Phase,  Period , Offset )
     {
@@ -85,19 +92,39 @@ private slots:
 
 private:
 
+    // 绘制正弦波
     void drawFunctionSin( const TPlotItem &tPlotItem , const TWaveFormParamBase &tWaveParam , int nDrawPeriodCount );
+
+    // 绘制脉冲波形
     void drawFunctionPulse( const TPlotItem &tPlotItem , const TWaveFormParamPulse &tWaveParam , int nDrawPeriodCount );
+
+    // 绘制调幅波形
     void drawFunctionModuAM( const TPlotItem &tPlotItem ,
                              const TWaveFormParamBase &tWaveParamModuSig , int nDrawPeriodModuSigCount,
                              const TWaveFormParamBase &tWaveParamCarrierSig , int nDrawPeriodCarrierSigCount);
 
+    // 绘制调频波形
     void drawFunctionModuFM( const TPlotItem &tPlotItem ,
                              const TWaveFormParamBase &tWaveParamModuSig , int nDrawPeriodModuSigCount,
                              const TWaveFormParamBase &tWaveParamCarrierSig , int nDrawPeriodCarrierSigCount,
                              double dDCoef );
 
+    // 绘制调相波形
+    void drawFunctionModuPM( const TPlotItem &tPlotItem ,
+                             const TWaveFormParamBase &tWaveParamModuSig , int nDrawPeriodModuSigCount,
+                             const TWaveFormParamBase &tWaveParamCarrierSig , int nDrawPeriodCarrierSigCount,
+                             double dDCoef );
+
+    // 绘制脉调波形
+    void drawFunctionModuPulse( const TPlotItem &tPlotItem ,
+                                const TWaveFormParamPulse &tWaveParamModuSig , int nDrawPeriodModuSigCount,
+                                const TWaveFormParamBase &tWaveParamCarrierSig , int nDrawPeriodCarrierSigCount );
+
     void getParamBase( TWaveFormParamBase &tWaveParamModuSig );
     void getParamAModu(TWaveFormParamBase &tWaveParamModuSig );
+    void getParamPulse( TWaveFormParamPulse &tWaveParamPulse );
+
+    void initBitSequenceTableView();
 
 private:
     Ui::PlotTestDlg *ui;

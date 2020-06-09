@@ -15,11 +15,13 @@ TEMPLATE = app
 SOURCES += main.cpp\
         dialog.cpp \
     switchcontrol.cpp \
-    plottestdlg.cpp
+    plottestdlg.cpp \
+    delegate.cpp
 
 HEADERS  += dialog.h \
     switchcontrol.h \
-    plottestdlg.h
+    plottestdlg.h \
+    delegate.h
 
 FORMS    += dialog.ui \
     plottestdlg.ui
