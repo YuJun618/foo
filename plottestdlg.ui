@@ -96,7 +96,7 @@
            <item>
             <layout class="QVBoxLayout" name="verticalLayout_5">
              <item>
-              <widget class="QGroupBox" name="groupBox_2">
+              <widget class="QGroupBox" name="gbMainSigParam">
                <property name="title">
                 <string>信号参数</string>
                </property>
@@ -207,7 +207,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QGroupBox" name="groupBox">
+              <widget class="QGroupBox" name="gbAModParam">
                <property name="title">
                 <string>模拟调制参数</string>
                </property>
@@ -352,7 +352,7 @@
            <item>
             <layout class="QVBoxLayout" name="verticalLayout_7">
              <item>
-              <widget class="QGroupBox" name="groupBox_4">
+              <widget class="QGroupBox" name="gbDModParam">
                <property name="title">
                 <string>数字调制参数</string>
                </property>
@@ -477,7 +477,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QGroupBox" name="groupBox_3">
+              <widget class="QGroupBox" name="gbPModParam">
                <property name="title">
                 <string>脉冲调制参数</string>
                </property>
@@ -547,7 +547,7 @@
           </layout>
          </item>
          <item>
-          <widget class="QGroupBox" name="groupBox_6">
+          <widget class="QGroupBox" name="gbPNSeq">
            <property name="title">
             <string>符号比特序列</string>
            </property>

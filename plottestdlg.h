@@ -132,14 +132,6 @@ private:
     TPlotItem m_tPlotMain;
     TPlotItem m_tPlotModu;
 
-//    QwtPlotMarker *m_pPlotOrigin1;
-//    QwtPlotMarker *m_pPlotOrigin2;
-
-//    QwtPlotCurve  *m_pPlotCurveChannel1;
-//    QwtPlotCurve  *m_pPlotCurveChannel2;
-
-//    double *m_pdzSampBufChannel1;
-//    double *m_pdzSampCoordX;
 };
 
 #endif // PLOTTESTDLG_H

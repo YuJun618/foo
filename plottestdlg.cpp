@@ -574,6 +574,12 @@ void PlotTestDlg::on_comboBox_currentIndexChanged(int index)
         getParamBase( tBase );
         drawFunctionSin( m_tPlotMain , tBase , 2 );
         drawFunctionSin( m_tPlotModu , tBase , 2 );
+
+        ui->gbAModParam->setEnabled( false );
+        ui->gbPModParam->setEnabled( false );
+        ui->gbDModParam->setEnabled( false );
+        ui->gbPNSeq->setEnabled( false );
+
         break;
     }
     case 1: // amod-am
@@ -587,6 +593,12 @@ void PlotTestDlg::on_comboBox_currentIndexChanged(int index)
         drawFunctionModuAM( m_tPlotMain ,
                             tAModu , 2 ,
                             tMain , 2*dFreqCountCoef );
+
+        ui->gbAModParam->setEnabled( true );
+        ui->gbPModParam->setEnabled( false );
+        ui->gbDModParam->setEnabled( false );
+        ui->gbPNSeq->setEnabled( false );
+
         break;
     }
     case 2: // amod-fm
@@ -601,6 +613,12 @@ void PlotTestDlg::on_comboBox_currentIndexChanged(int index)
         drawFunctionModuFM( m_tPlotMain ,
                             tAModu , 2 ,
                             tMain , 2*dFreqCountCoef , dFMDCoef );
+
+        ui->gbAModParam->setEnabled( true );
+        ui->gbPModParam->setEnabled( false );
+        ui->gbDModParam->setEnabled( false );
+        ui->gbPNSeq->setEnabled( false );
+
         break;
     }
     case 3: // amod-pm
@@ -615,6 +633,12 @@ void PlotTestDlg::on_comboBox_currentIndexChanged(int index)
         drawFunctionModuPM( m_tPlotMain ,
                             tAModu , 2 ,
                             tMain , 2*dFreqCountCoef , dFMDCoef );
+
+        ui->gbAModParam->setEnabled( true );
+        ui->gbPModParam->setEnabled( false );
+        ui->gbDModParam->setEnabled( false );
+        ui->gbPNSeq->setEnabled( false );
+
         break;
     }
 
@@ -627,14 +651,18 @@ void PlotTestDlg::on_comboBox_currentIndexChanged(int index)
         drawFunctionPulse( m_tPlotModu , tPulse , 2 );
         double dFreqCountCoef = (1.0/tMain.Period)/(1.0/tPulse.Period);
         drawFunctionModuPulse( m_tPlotMain , tPulse , 2 , tMain , 2*dFreqCountCoef );
+
+        ui->gbAModParam->setEnabled( false );
+        ui->gbPModParam->setEnabled( true );
+        ui->gbDModParam->setEnabled( false );
+        ui->gbPNSeq->setEnabled( false );
+
         break;
     }
     default:
         break;
     }
 }
-
-
 
 void PlotTestDlg::paramChanged(double)
 {
