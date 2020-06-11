@@ -17,7 +17,7 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>信号源软件</string>
   </property>
   <property name="styleSheet">
    <string notr="true"/>
