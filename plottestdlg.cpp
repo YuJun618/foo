@@ -10,15 +10,66 @@
 #include "qwt_scale_widget.h"
 #include "delegate.h"
 #include "qstandarditemmodel.h"
+#include "AMCAlgorithmLib.h"
 
 #define PT_NUM 10000
+
+enum ETimeUnit
+{
+    TIME_UNIT_S = 0,
+    TIME_UNIT_MS,
+    TIME_UNIT_US,
+    TIME_UNIT_NS
+};
+
+QString getUnitName( ETimeUnit eUnit )
+{
+    switch ( eUnit )
+    {
+    case TIME_UNIT_S:
+        return "s";
+    case TIME_UNIT_MS:
+        return "ms";
+    case TIME_UNIT_US:
+        return "us";
+    case TIME_UNIT_NS:
+        return "ns";
+    default:
+        return "";
+    }
+}
+
+void getTimeValueInt( double dValue , double &dNew , ETimeUnit &eUnit )
+{
+    if ( dValue >= 1.0 )
+    {
+        dNew = dValue;
+        eUnit = TIME_UNIT_S;
+    }
+    else if ( dValue >= 1.0e-3 && dValue < 1.0 )
+    {
+        dNew = dValue*1000;
+        eUnit = TIME_UNIT_MS;
+    }
+    else if ( dValue >= 1.0e-6 && dValue < 1.0e-3 )
+    {
+        dNew = dValue*1000000;
+        eUnit = TIME_UNIT_US;
+    }
+    else
+    {
+        dNew = dValue*1000000000;
+        eUnit = TIME_UNIT_NS;
+    }
+}
 
 class RealScaleDraw: public QwtScaleDraw
 {
 public:
-    RealScaleDraw()
+    RealScaleDraw( PlotTestDlg* pDlg )
     {
         m_dCoef = 1.0;
+        m_pPlotTestDlg = pDlg;
     }
 
     void setCoef( double dCoef )
@@ -28,12 +79,18 @@ public:
 
     virtual QwtText label(double v) const
     {
-        return QwtText(QString::number(v*m_dCoef)); //60和120都除以10
+        double dNew;
+        ETimeUnit eUnit;
+
+        getTimeValueInt( v ,dNew , eUnit );
+        m_pPlotTestDlg->ui->lbXUnit->setText( getUnitName(eUnit) );
+        return QwtText(QString::number(dNew));
     }
 
 private:
 
     double m_dCoef;
+    PlotTestDlg *m_pPlotTestDlg;
 
 };
 
@@ -154,7 +211,7 @@ PlotTestDlg::PlotTestDlg(QWidget *parent) :
     m_tPlotMain.pPlot->setAxisScale( QwtPlot::yLeft, -1, 1 );
     m_tPlotMain.pPlot->enableAxis( QwtPlot::xBottom , false );
     m_tPlotMain.pPlot->enableAxis( QwtPlot::yLeft , false );
-    m_tPlotMain.pScaleDraw = new RealScaleDraw();
+    m_tPlotMain.pScaleDraw = new RealScaleDraw( this );
     m_tPlotMain.pPlot->setAxisScaleDraw( QwtPlot::xBottom, m_tPlotMain.pScaleDraw );
 
  // ui->qwtPlot2->setTitle( "Plot test" );
@@ -163,15 +220,15 @@ PlotTestDlg::PlotTestDlg(QWidget *parent) :
     m_tPlotModu.pPlot->setAxisScale( QwtPlot::xBottom, 0, 2  );
     m_tPlotModu.pPlot->setAxisScale( QwtPlot::yLeft, -1, 1 );
     m_tPlotModu.pPlot->enableAxis( QwtPlot::yLeft , false );
-    m_tPlotModu.pPlot->enableAxis( QwtPlot::xBottom , false );
+    m_tPlotModu.pPlot->enableAxis( QwtPlot::xBottom , true );
 
     QList<double> ticks[QwtScaleDiv::NTickTypes];
-    ticks[QwtScaleDiv::MajorTick] << 0 << 1 << 2;  //只在60和120个sample点tick
+    ticks[QwtScaleDiv::MajorTick] << 0 << PT_NUM/2 << PT_NUM;  //只在60和120个sample点tick
     QwtScaleDiv scaleDiv( ticks[QwtScaleDiv::MajorTick].first(),
                           ticks[QwtScaleDiv::MajorTick].last(),
                           ticks );
     m_tPlotModu.pPlot->setAxisScaleDiv( QwtPlot::xBottom, scaleDiv);
-    m_tPlotModu.pScaleDraw = new RealScaleDraw();
+    m_tPlotModu.pScaleDraw = new RealScaleDraw( this );
     m_tPlotModu.pPlot->setAxisScaleDraw( QwtPlot::xBottom, m_tPlotModu.pScaleDraw );
 //    m_tPlotMain.pPlot->setAxisScaleDiv(QwtPlot::xBottom, scaleDiv);
 
@@ -248,22 +305,23 @@ PlotTestDlg::~PlotTestDlg()
 
 void PlotTestDlg::drawFunctionSin(const TPlotItem &tPlotItem , const TWaveFormParamBase &tWaveParam , int nDrawPeriodCount )
 {
-    double dMaxX = nDrawPeriodCount;
+    double dTime = nDrawPeriodCount*tWaveParam.Period;
 
     double dAmp = tWaveParam.Vpp/2.0;
 
-    tPlotItem.pPlot->setAxisScale( QwtPlot::xBottom, 0, dMaxX  );
+    tPlotItem.pPlot->setAxisScale( QwtPlot::xBottom, 0, dTime  );
     tPlotItem.pPlot->setAxisScale( QwtPlot::yLeft, tWaveParam.Offset-dAmp, tWaveParam.Offset+dAmp );
 
-    tPlotItem.pMark->setValue( dMaxX / 2.0, tWaveParam.Offset );
+    tPlotItem.pMark->setValue( dTime / 2.0, tWaveParam.Offset );
 
 
-    double dOffsetX = (dMaxX/PT_NUM);
+    double dOffsetPointTime = (dTime/PT_NUM);
     double p_cof = tWaveParam.Phase*M_PI/180.0;
+    double f0 = 1.0/tWaveParam.Period;
     for ( int i = 0 ; i < PT_NUM ; i++  )
     {
-        tPlotItem.x[i] = double(i)*dOffsetX;
-        double d = (dAmp)*cos(2*M_PI*tPlotItem.x[i] + p_cof) + tWaveParam.Offset;// cos(2.0*M_PI*1.0/(1.0e-9*m_pdzSampCoordX[i]) );
+        tPlotItem.x[i] = double(i)*dOffsetPointTime;
+        double d = (dAmp)*cos(2*M_PI*f0*tPlotItem.x[i] + p_cof) + tWaveParam.Offset;// cos(2.0*M_PI*1.0/(1.0e-9*m_pdzSampCoordX[i]) );
         tPlotItem.y[i] = d;
     }
 
@@ -340,6 +398,40 @@ void PlotTestDlg::drawFunctionPulse(const TPlotItem &tPlotItem , const TWaveForm
     tPlotItem.pPlot->update();
 }
 
+void PlotTestDlg::drawFuncitonDigital(const TPlotItem &tPlotItem, const TWaveFormParamDigital &tWaveParam)
+{
+    double dTime = (1.0/tWaveParam.symbolRate)*tWaveParam.symbolCount;
+
+    tPlotItem.pPlot->setAxisScale( QwtPlot::xBottom, 0, dTime  );
+
+    if ( tWaveParam.polar > 0 )
+    {
+        tPlotItem.pPlot->setAxisScale( QwtPlot::yLeft, -1.0 , 1.0 );
+        tPlotItem.pMark->setValue( dTime / 2.0, -1.0 );
+    }
+    else
+    {
+        tPlotItem.pPlot->setAxisScale( QwtPlot::yLeft, 0.0 , 1.0 );
+        tPlotItem.pMark->setValue( dTime / 2.0, 0.0 );
+    }
+
+    double dOffsetX = dTime/PT_NUM;
+    double dPointOffset = tWaveParam.symbolCount/double(PT_NUM);
+    for ( int i = 0 ; i < PT_NUM ; i++ )
+    {
+        tPlotItem.x[i] = double(i)*dOffsetX;
+        int nSymbolIndex =  double(i) *  dPointOffset;
+        tPlotItem.y[i] = tWaveParam.symbolBuf[nSymbolIndex];
+    }
+
+    // 设置采样数据
+    tPlotItem.pCurve->setSamples( tPlotItem.x , tPlotItem.y , PT_NUM );
+
+    // 重绘制
+    tPlotItem.pPlot->replot();
+
+}
+
 void PlotTestDlg::drawFunctionModuAM(const TPlotItem &tPlotItem ,
                                      const TWaveFormParamBase &tWaveParamModuSig , int nDrawPeriodModuSigCount,
                                      const TWaveFormParamBase &tWaveParamCarrierSig , int nDrawPeriodCarrierSigCount)
@@ -351,10 +443,10 @@ void PlotTestDlg::drawFunctionModuAM(const TPlotItem &tPlotItem ,
 
     double dAmpRange = tWaveParamModuSig.Vpp/2.0+dAmp+tWaveParamModuSig.Offset;
 
-    m_tPlotMain.pPlot->setAxisScale( QwtPlot::xBottom, 0, dMainF  );
-    m_tPlotMain.pPlot->setAxisScale( QwtPlot::yLeft, -dAmpRange, dAmpRange );
+    tPlotItem.pPlot->setAxisScale( QwtPlot::xBottom, 0, dMainF  );
+    tPlotItem.pPlot->setAxisScale( QwtPlot::yLeft, -dAmpRange, dAmpRange );
 
-    m_tPlotMain.pMark->setValue( dMainF / 2.0, 0.0 );
+    tPlotItem.pMark->setValue( dMainF / 2.0, 0.0 );
 
 
     double dPhaseCof = M_PI/180.0;
@@ -362,16 +454,16 @@ void PlotTestDlg::drawFunctionModuAM(const TPlotItem &tPlotItem ,
     double dOffsetModu = (double)nDrawPeriodModuSigCount/(double)PT_NUM;
     for ( int i = 0 ; i < PT_NUM ; i++  )
     {
-        m_tPlotMain.x[i] = double(i)*dOffsetMain;
+        tPlotItem.x[i] = double(i)*dOffsetMain;
         double dAmpSin = (tWaveParamModuSig.Vpp/2.0)*cos(2*M_PI* double(i)*dOffsetModu + dPhaseCof*tWaveParamModuSig.Phase ) + tWaveParamModuSig.Offset;
-        m_tPlotMain.y[i] = (dAmp+dAmpSin)*cos(2*M_PI*m_tPlotMain.x[i] + dPhaseCof*tWaveParamCarrierSig.Phase) + tWaveParamCarrierSig.Offset;
+        tPlotItem.y[i] = (dAmp+dAmpSin)*cos(2*M_PI*tPlotItem.x[i] + dPhaseCof*tWaveParamCarrierSig.Phase) + tWaveParamCarrierSig.Offset;
     }
 
     // 设置采样数据
-    m_tPlotMain.pCurve->setSamples( m_tPlotMain.x , m_tPlotMain.y , PT_NUM );
+    tPlotItem.pCurve->setSamples( tPlotItem.x , tPlotItem.y , PT_NUM );
 
     // 重绘制
-    m_tPlotMain.pPlot->replot();
+    tPlotItem.pPlot->replot();
 }
 
 void PlotTestDlg::drawFunctionModuFM(const TPlotItem &tPlotItem,
@@ -399,11 +491,11 @@ void PlotTestDlg::drawFunctionModuFM(const TPlotItem &tPlotItem,
         tPlotItem.x[i] = double(i)*dOffsetMain;
         double dModuX = double(i)*dOffsetModu;
 //      double dAmpSin = (tWaveParamModuSig.Vpp/2.0)*sin(2*M_PI* double(i)*dOffsetModu - dPhaseCof*tWaveParamModuSig.Phase ) + tWaveParamModuSig.Offset;
-        tPlotItem.y[i] = (dAmp)*cos(2*M_PI*m_tPlotMain.x[i])*cos(D*sin(2*M_PI*dModuX)) - dAmp*sin(2*M_PI*m_tPlotMain.x[i])*sin(D*sin(2*M_PI*dModuX));
+        tPlotItem.y[i] = (dAmp)*cos(2*M_PI*tPlotItem.x[i])*cos(D*sin(2*M_PI*dModuX)) - dAmp*sin(2*M_PI*tPlotItem.x[i])*sin(D*sin(2*M_PI*dModuX));
     }
 
     // 设置采样数据
-    tPlotItem.pCurve->setSamples( m_tPlotMain.x , m_tPlotMain.y , PT_NUM );
+    tPlotItem.pCurve->setSamples( tPlotItem.x , tPlotItem.y , PT_NUM );
 
     // 重绘制
     tPlotItem.pPlot->replot();
@@ -429,41 +521,41 @@ void PlotTestDlg::drawFunctionModuPM(const TPlotItem &tPlotItem, const TWaveForm
     {
         tPlotItem.x[i] = double(i)*dOffsetMain;
         double dModuX = double(i)*dOffsetModu;
-        tPlotItem.y[i] = (dAmp)*cos(2*M_PI*m_tPlotMain.x[i] + D*cos(2*M_PI*dModuX));
+        tPlotItem.y[i] = (dAmp)*cos(2*M_PI*tPlotItem.x[i] + D*cos(2*M_PI*dModuX));
     }
 
     // 设置采样数据
-    tPlotItem.pCurve->setSamples( m_tPlotMain.x , m_tPlotMain.y , PT_NUM );
+    tPlotItem.pCurve->setSamples( tPlotItem.x , tPlotItem.y , PT_NUM );
 
     // 重绘制
     tPlotItem.pPlot->replot();
 }
 
-void PlotTestDlg::drawFunctionModuPulse(const TPlotItem &tPlotItem, const TWaveFormParamPulse &tWaveParamModuSig, int nDrawPeriodModuSigCount, const TWaveFormParamBase &tWaveParamCarrierSig, int nDrawPeriodCarrierSigCount)
+void PlotTestDlg::drawFunctionModuPulse(const TPlotItem &tPlotItem, const TWaveFormParamPulse &tWaveParamModuSig, int nDrawPeriodModuSigCount, const TWaveFormParamBase &tWaveParamCarrierSig)
 {
-    double dMainF = nDrawPeriodCarrierSigCount;
+    double dTime = nDrawPeriodModuSigCount*tWaveParamModuSig.Period;
     double Vpp = tWaveParamCarrierSig.Vpp;
-
     double dAmp = Vpp/2.0;
 
-    m_tPlotMain.pPlot->setAxisScale( QwtPlot::xBottom, 0, dMainF  );
-    m_tPlotMain.pPlot->setAxisScale( QwtPlot::yLeft, -dAmp, dAmp );
+    tPlotItem.pPlot->setAxisScale( QwtPlot::xBottom, 0, dTime  );
+    tPlotItem.pPlot->setAxisScale( QwtPlot::yLeft, -dAmp, dAmp );
 
-    m_tPlotMain.pMark->setValue( dMainF / 2.0, 0.0 );
+    tPlotItem.pMark->setValue( dTime / 2.0, 0.0 );
 
 
     double dPhaseCof = M_PI/180.0;
-    double dOffsetMain = dMainF/PT_NUM;
+    double dOffsetPointTime = dTime/PT_NUM;
     double dOffsetModu = (double)nDrawPeriodModuSigCount/(double)PT_NUM;
     double D = tWaveParamModuSig.width/tWaveParamModuSig.Period;
+    double f0 = 1.0/tWaveParamCarrierSig.Period;
     for ( int i = 0 ; i < PT_NUM ; i++  )
     {
-        tPlotItem.x[i] = double(i)*dOffsetMain;
+        tPlotItem.x[i] = double(i)*dOffsetPointTime;
         double dModuX = double(i)*dOffsetModu;
         double x = dModuX - ((int)dModuX)*1.0;
         if ( x >= 0 &&  x < D )
         {
-            tPlotItem.y[i] = (dAmp)*cos(2*M_PI*tPlotItem.x[i] + dPhaseCof*tWaveParamCarrierSig.Phase) + tWaveParamCarrierSig.Offset;
+            tPlotItem.y[i] = (dAmp)*cos(2*M_PI*f0*tPlotItem.x[i] + dPhaseCof*tWaveParamCarrierSig.Phase) + tWaveParamCarrierSig.Offset;
         }
         else if ( x >= D && x < 1 )
         {
@@ -476,10 +568,117 @@ void PlotTestDlg::drawFunctionModuPulse(const TPlotItem &tPlotItem, const TWaveF
     }
 
     // 设置采样数据
-    m_tPlotMain.pCurve->setSamples( m_tPlotMain.x , m_tPlotMain.y , PT_NUM );
+    tPlotItem.pCurve->setSamples( tPlotItem.x , tPlotItem.y , PT_NUM );
 
     // 重绘制
-    m_tPlotMain.pPlot->replot();
+    tPlotItem.pPlot->replot();
+}
+
+void PlotTestDlg::drawFunctionModuASK(const TPlotItem &tPlotItem, const TWaveFormParamDigital &tWaveParamModuSig, const TWaveFormParamBase &tWaveParamCarrierSig)
+{
+    double dTime = (1.0/tWaveParamModuSig.symbolRate)*tWaveParamModuSig.symbolCount;
+    double dAmp = tWaveParamCarrierSig.Vpp/2.0;
+
+    tPlotItem.pPlot->setAxisScale( QwtPlot::xBottom, 0, dTime  );
+    tPlotItem.pPlot->setAxisScale( QwtPlot::yLeft, -dAmp, dAmp );
+    tPlotItem.pMark->setValue( dTime / 2.0, 0.0 );
+
+
+    double dPhaseCof = M_PI/180.0;
+    double dOffsetPointTime = dTime/PT_NUM;
+    double dPointOffset = tWaveParamModuSig.symbolCount/double(PT_NUM);
+    double f0 = 1.0/tWaveParamCarrierSig.Period;
+
+    for ( int i = 0 ; i < PT_NUM ; i++  )
+    {
+        tPlotItem.x[i] = double(i)*dOffsetPointTime;
+        int nSymbolIndex =  double(i) *  dPointOffset;
+        if ( tWaveParamModuSig.symbolBuf[nSymbolIndex] > 0 )
+        {
+            tPlotItem.y[i] = (dAmp)*cos(2*M_PI*f0*tPlotItem.x[i] + dPhaseCof*tWaveParamCarrierSig.Phase) + tWaveParamCarrierSig.Offset;
+        }
+        else
+        {
+            tPlotItem.y[i] = tWaveParamCarrierSig.Offset;
+        }
+
+    }
+
+    // 设置采样数据
+    tPlotItem.pCurve->setSamples( tPlotItem.x , tPlotItem.y , PT_NUM );
+
+    // 重绘制
+    tPlotItem.pPlot->replot();
+}
+
+void PlotTestDlg::drawFunctionModuFSK(const TPlotItem &tPlotItem, const TWaveFormParamDigital &tWaveParamModuSig, const TWaveFormParamBase &tWaveParamCarrierSig, double dFreqModu )
+{
+    double dTime = (1.0/tWaveParamModuSig.symbolRate)*tWaveParamModuSig.symbolCount;
+
+    tPlotItem.pPlot->setAxisScale( QwtPlot::xBottom, 0, dTime  );
+    tPlotItem.pPlot->setAxisScale( QwtPlot::yLeft, -1, 1 );
+    tPlotItem.pMark->setValue( dTime / 2.0, 0.0 );
+
+    double dOffsetPointTime = dTime/PT_NUM;
+    double dOffsetSymbolPt = tWaveParamModuSig.symbolCount/double(PT_NUM);
+    double f0 = 1.0/tWaveParamCarrierSig.Period;
+    double f1 = dFreqModu;
+
+    for ( int i = 0 ; i < PT_NUM ; i++  )
+    {
+        tPlotItem.x[i] = double(i)*dOffsetPointTime;
+        int nSymbolIndex =  double(i) *  dOffsetSymbolPt;
+        if ( tWaveParamModuSig.symbolBuf[nSymbolIndex] > 0 )
+        {
+            tPlotItem.y[i] = cos(2*M_PI*f0*tPlotItem.x[i]);
+        }
+        else
+        {
+            tPlotItem.y[i] = cos(2*M_PI*f1*tPlotItem.x[i]);
+        }
+
+    }
+
+    // 设置采样数据
+    tPlotItem.pCurve->setSamples( tPlotItem.x , tPlotItem.y , PT_NUM );
+
+    // 重绘制
+    tPlotItem.pPlot->replot();
+}
+
+void PlotTestDlg::drawFunctionModuPSK(const TPlotItem &tPlotItem, const TWaveFormParamDigital &tWaveParamModuSig, const TWaveFormParamBase &tWaveParamCarrierSig)
+{
+    double dTime = (1.0/tWaveParamModuSig.symbolRate)*tWaveParamModuSig.symbolCount;
+
+    tPlotItem.pPlot->setAxisScale( QwtPlot::xBottom, 0, dTime  );
+    tPlotItem.pPlot->setAxisScale( QwtPlot::yLeft, -1, 1 );
+    tPlotItem.pMark->setValue( dTime / 2.0, 0.0 );
+
+    double dOffsetPointTime = dTime/PT_NUM;
+    double dOffsetSymbolPt = tWaveParamModuSig.symbolCount/double(PT_NUM);
+    double f0 = 1.0/tWaveParamCarrierSig.Period;
+    double dPhaseCof = M_PI/180.0;
+
+    for ( int i = 0 ; i < PT_NUM ; i++  )
+    {
+        tPlotItem.x[i] = double(i)*dOffsetPointTime;
+        int nSymbolIndex =  double(i) *  dOffsetSymbolPt;
+        if ( tWaveParamModuSig.symbolBuf[nSymbolIndex] > 0 )
+        {
+            tPlotItem.y[i] = cos(2*M_PI*f0*tPlotItem.x[i]+ dPhaseCof*tWaveParamCarrierSig.Phase);
+        }
+        else
+        {
+            tPlotItem.y[i] = -cos(2*M_PI*f0*tPlotItem.x[i]+ dPhaseCof*tWaveParamCarrierSig.Phase);
+        }
+
+    }
+
+    // 设置采样数据
+    tPlotItem.pCurve->setSamples( tPlotItem.x , tPlotItem.y , PT_NUM );
+
+    // 重绘制
+    tPlotItem.pPlot->replot();
 }
 
 void PlotTestDlg::getParamBase(TWaveFormParamBase &tWaveParamModuSig)
@@ -509,6 +708,26 @@ void PlotTestDlg::getParamPulse(TWaveFormParamPulse &tWaveParamPulse)
     double dWidth = (1.0/dFreq)*dDuty/100.0;
     TWaveFormParamPulse tPulse( 2.0 , 0.0,  1.0/dFreq , 0.0 , dWidth , 0 , 0 );
     tWaveParamPulse = tPulse;
+}
+
+void PlotTestDlg::getParamDigit(TWaveFormParamDigital &tWaveParamDitital)
+{
+    double rate = ui->dsDModuSymbolRate->value();
+    double filter = ui->cbDModuFilter->currentIndex();
+    double coef = ui->dsDModuFilterCoeff->value();
+    double inter = ui->dsDModuInterPts->value();
+    TWaveFormParamDigital tDigital( rate, inter,filter,coef, 1);
+    tWaveParamDitital = tDigital;
+
+    int degree = ui->sbDModuPNDegree->value();
+    int nBuflen = pow(2.0, degree);
+    char* pBuf = new char[nBuflen];
+
+    if ( (nBuflen = CAMCAlgorithmLib::genPNSequece( degree , pBuf ,  nBuflen )) > 0 )
+    {
+        tWaveParamDitital.symbolBuf = pBuf;
+        tWaveParamDitital.symbolCount = nBuflen;
+    }
 }
 
 void PlotTestDlg::initBitSequenceTableView()
@@ -649,14 +868,59 @@ void PlotTestDlg::on_comboBox_currentIndexChanged(int index)
         TWaveFormParamPulse tPulse;
         getParamPulse( tPulse );
         drawFunctionPulse( m_tPlotModu , tPulse , 2 );
-        double dFreqCountCoef = (1.0/tMain.Period)/(1.0/tPulse.Period);
-        drawFunctionModuPulse( m_tPlotMain , tPulse , 2 , tMain , 2*dFreqCountCoef );
+        drawFunctionModuPulse( m_tPlotMain , tPulse , 2 , tMain );
 
         ui->gbAModParam->setEnabled( false );
         ui->gbPModParam->setEnabled( true );
         ui->gbDModParam->setEnabled( false );
         ui->gbPNSeq->setEnabled( false );
 
+        break;
+    }
+    case 5: // ASK
+    {
+        TWaveFormParamBase tMain;
+        getParamBase( tMain );
+        TWaveFormParamDigital tDigital;
+        getParamDigit( tDigital );
+        drawFuncitonDigital( m_tPlotModu , tDigital );
+        drawFunctionModuASK( m_tPlotMain , tDigital , tMain );
+
+        ui->gbAModParam->setEnabled( false );
+        ui->gbPModParam->setEnabled( false );
+        ui->gbDModParam->setEnabled( true );
+        ui->gbPNSeq->setEnabled( true );
+        break;
+    }
+    case 6: // FSK
+    {
+        TWaveFormParamBase tMain;
+        getParamBase( tMain );
+        TWaveFormParamDigital tDigital;
+        getParamDigit( tDigital );
+        drawFuncitonDigital( m_tPlotModu , tDigital );
+        double f1 = ui->dsDModuFSKFreq->value();
+        drawFunctionModuFSK( m_tPlotMain , tDigital , tMain , f1 );
+
+        ui->gbAModParam->setEnabled( false );
+        ui->gbPModParam->setEnabled( false );
+        ui->gbDModParam->setEnabled( true );
+        ui->gbPNSeq->setEnabled( true );
+        break;
+    }
+    case 7: // PSK
+    {
+        TWaveFormParamBase tMain;
+        getParamBase( tMain );
+        TWaveFormParamDigital tDigital;
+        getParamDigit( tDigital );
+        drawFuncitonDigital( m_tPlotModu , tDigital );
+        drawFunctionModuPSK( m_tPlotMain , tDigital , tMain );
+
+        ui->gbAModParam->setEnabled( false );
+        ui->gbPModParam->setEnabled( false );
+        ui->gbDModParam->setEnabled( true );
+        ui->gbPNSeq->setEnabled( true );
         break;
     }
     default:
@@ -667,4 +931,32 @@ void PlotTestDlg::on_comboBox_currentIndexChanged(int index)
 void PlotTestDlg::paramChanged(double)
 {
     on_comboBox_currentIndexChanged(ui->comboBox->currentIndex());
+}
+
+void PlotTestDlg::paramChanged()
+{
+    on_comboBox_currentIndexChanged(ui->comboBox->currentIndex());
+}
+
+void PlotTestDlg::on_cbBitSeq_clicked(bool checked)
+{
+    if ( checked )
+    {
+        ui->sbDModuPNDegree->setEnabled( false );
+        ui->sbDModuBitCount->setEnabled( true );
+        ui->tableView->setEnabled( true );
+    }
+    else
+    {
+        ui->sbDModuPNDegree->setEnabled( true );
+        ui->sbDModuBitCount->setEnabled( false );
+        ui->tableView->setEnabled( false );
+    }
+
+    on_comboBox_currentIndexChanged(ui->comboBox->currentIndex());
+}
+
+void PlotTestDlg::on_sbDModuBitCount_valueChanged(int arg1)
+{
+
 }

@@ -28,10 +28,12 @@ FORMS    += dialog.ui \
 
 
 INCLUDEPATH +="E:\open_source\qwt-6.1.4\qwt-6.1.4\export\include"
+INCLUDEPATH +="E:\WORK-INSTR-SOFTWARE\AMCAlgorithmLib\AMCAlgorithmLib"
 
 CONFIG += debug_and_release
 CONFIG(debug,debug|release) {
 LIBS +=E:\open_source\qwt-6.1.4\qwt-6.1.4\export\lib\qwtd.lib
+LIBS +=E:\WORK-INSTR-SOFTWARE\AMCAlgorithmLib\Debug\AMCAlgorithmLib.lib
 unix|win32: LIBS += Qt5Cored.lib
 unix|win32: LIBS += Qt5Guid.lib
 

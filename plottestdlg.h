@@ -51,6 +51,38 @@ struct TWaveFormParamPulse: public TWaveFormParamBase
     }
 };
 
+struct TWaveFormParamDigital
+{
+    double symbolRate; // 符号速率
+    double interPoint; // 插值个数
+    double filterType; // 符号成型滤波类型
+    double filterCoeff; // 符号系数
+    int    polar; // 是否极性
+    char*  symbolBuf;  // 符号
+    int    symbolCount; // 符号数量
+    TWaveFormParamDigital()
+    {
+        this->symbolRate = 0;
+        this->interPoint = 0;
+        this->filterType = 0;
+        this->filterCoeff = 0;
+        this->polar = 0;
+        this->symbolBuf  = NULL;
+        this->symbolCount = 0;
+    }
+
+    TWaveFormParamDigital( double symbolRate, double interPoint,double filterType,double filterCoeff, int    polar)
+    {
+        this->symbolRate = symbolRate;
+        this->interPoint = interPoint;
+        this->filterType = filterType;
+        this->filterCoeff = filterCoeff;
+        this->polar = polar;
+        this->symbolBuf  = NULL;
+        this->symbolCount = 0;
+    }
+};
+
 struct TDModuParam
 {
 
@@ -79,50 +111,81 @@ class PlotTestDlg;
 
 class PlotTestDlg : public QDialog
 {
+    friend class RealScaleDraw;
+
     Q_OBJECT
 
 public:
     explicit PlotTestDlg(QWidget *parent = 0);
     ~PlotTestDlg();
 
+public:
+
+    // 绘制正弦波
+    static void drawFunctionSin( const TPlotItem &tPlotItem , const TWaveFormParamBase &tWaveParam , int nDrawPeriodCount );
+
+    // 绘制脉冲波形
+    static void drawFunctionPulse( const TPlotItem &tPlotItem , const TWaveFormParamPulse &tWaveParam , int nDrawPeriodCount );
+
+    // 绘制数字信号
+    static void drawFuncitonDigital( const TPlotItem &tPlotItem , const TWaveFormParamDigital &tWaveParam );
+
+    // 绘制调幅波形
+    static void drawFunctionModuAM( const TPlotItem &tPlotItem ,
+                                    const TWaveFormParamBase &tWaveParamModuSig , int nDrawPeriodModuSigCount,
+                                    const TWaveFormParamBase &tWaveParamCarrierSig , int nDrawPeriodCarrierSigCount);
+
+    // 绘制调频波形
+    static void drawFunctionModuFM( const TPlotItem &tPlotItem ,
+                                    const TWaveFormParamBase &tWaveParamModuSig , int nDrawPeriodModuSigCount,
+                                    const TWaveFormParamBase &tWaveParamCarrierSig , int nDrawPeriodCarrierSigCount,
+                                    double dDCoef );
+
+    // 绘制调相波形
+    static void drawFunctionModuPM( const TPlotItem &tPlotItem ,
+                                    const TWaveFormParamBase &tWaveParamModuSig , int nDrawPeriodModuSigCount,
+                                    const TWaveFormParamBase &tWaveParamCarrierSig , int nDrawPeriodCarrierSigCount,
+                                    double dDCoef );
+
+    // 绘制脉调波形
+    static void drawFunctionModuPulse( const TPlotItem &tPlotItem ,
+                                       const TWaveFormParamPulse &tWaveParamModuSig , int nDrawPeriodModuSigCount,
+                                       const TWaveFormParamBase &tWaveParamCarrierSig );
+
+    // 绘制ASK波形
+    static void drawFunctionModuASK( const TPlotItem &tPlotItem ,
+                                     const TWaveFormParamDigital &tWaveParamModuSig ,
+                                     const TWaveFormParamBase &tWaveParamCarrierSig  );
+
+    // 绘制FSK波形
+    static void drawFunctionModuFSK( const TPlotItem &tPlotItem ,
+                                     const TWaveFormParamDigital &tWaveParamModuSig ,
+                                     const TWaveFormParamBase &tWaveParamCarrierSig ,
+                                     double f1 );
+
+    // 绘制PSK波形
+    static void drawFunctionModuPSK( const TPlotItem &tPlotItem ,
+                                     const TWaveFormParamDigital &tWaveParamModuSig ,
+                                     const TWaveFormParamBase &tWaveParamCarrierSig );
+
 private slots:
+
     void on_comboBox_currentIndexChanged(int index);
 
     void paramChanged(double);
+    void paramChanged();
+
+
+    void on_cbBitSeq_clicked(bool checked);
+
+    void on_sbDModuBitCount_valueChanged(int arg1);
 
 private:
-
-    // 绘制正弦波
-    void drawFunctionSin( const TPlotItem &tPlotItem , const TWaveFormParamBase &tWaveParam , int nDrawPeriodCount );
-
-    // 绘制脉冲波形
-    void drawFunctionPulse( const TPlotItem &tPlotItem , const TWaveFormParamPulse &tWaveParam , int nDrawPeriodCount );
-
-    // 绘制调幅波形
-    void drawFunctionModuAM( const TPlotItem &tPlotItem ,
-                             const TWaveFormParamBase &tWaveParamModuSig , int nDrawPeriodModuSigCount,
-                             const TWaveFormParamBase &tWaveParamCarrierSig , int nDrawPeriodCarrierSigCount);
-
-    // 绘制调频波形
-    void drawFunctionModuFM( const TPlotItem &tPlotItem ,
-                             const TWaveFormParamBase &tWaveParamModuSig , int nDrawPeriodModuSigCount,
-                             const TWaveFormParamBase &tWaveParamCarrierSig , int nDrawPeriodCarrierSigCount,
-                             double dDCoef );
-
-    // 绘制调相波形
-    void drawFunctionModuPM( const TPlotItem &tPlotItem ,
-                             const TWaveFormParamBase &tWaveParamModuSig , int nDrawPeriodModuSigCount,
-                             const TWaveFormParamBase &tWaveParamCarrierSig , int nDrawPeriodCarrierSigCount,
-                             double dDCoef );
-
-    // 绘制脉调波形
-    void drawFunctionModuPulse( const TPlotItem &tPlotItem ,
-                                const TWaveFormParamPulse &tWaveParamModuSig , int nDrawPeriodModuSigCount,
-                                const TWaveFormParamBase &tWaveParamCarrierSig , int nDrawPeriodCarrierSigCount );
 
     void getParamBase( TWaveFormParamBase &tWaveParamModuSig );
     void getParamAModu(TWaveFormParamBase &tWaveParamModuSig );
     void getParamPulse( TWaveFormParamPulse &tWaveParamPulse );
+    void getParamDigit( TWaveFormParamDigital &tWaveParamDitital );
 
     void initBitSequenceTableView();
 
