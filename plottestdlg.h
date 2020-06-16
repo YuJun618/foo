@@ -7,6 +7,14 @@
 
 #include <QDialog>
 
+enum EFilterType
+{
+    FILTER_NONE = 0, // 无滤波器
+    FILTER_RAISED_COSINE, // 升余弦
+    FILTER_ROOT_RAISED_COSINE, // 根升余弦
+    FILTER_GAUSS, // 高斯
+};
+
 struct TWaveFormParamBase
 {
     double Vpp; // 峰峰值（V）
@@ -53,10 +61,11 @@ struct TWaveFormParamPulse: public TWaveFormParamBase
 
 struct TWaveFormParamDigital
 {
-    double symbolRate; // 符号速率
-    double interPoint; // 插值个数
-    double filterType; // 符号成型滤波类型
-    double filterCoeff; // 符号系数
+    double      symbolRate; // 符号速率
+    int         interPoint; // 插值个数
+    EFilterType filterType; // 符号成型滤波类型
+    double      filterCoeff; // 符号系数
+    int         filterSymbolCnt;
     int    polar; // 是否极性
     char*  symbolBuf;  // 符号
     int    symbolCount; // 符号数量
@@ -64,19 +73,21 @@ struct TWaveFormParamDigital
     {
         this->symbolRate = 0;
         this->interPoint = 0;
-        this->filterType = 0;
+        this->filterType = FILTER_NONE;
+        this->filterSymbolCnt = 0;
         this->filterCoeff = 0;
         this->polar = 0;
         this->symbolBuf  = NULL;
         this->symbolCount = 0;
     }
 
-    TWaveFormParamDigital( double symbolRate, double interPoint,double filterType,double filterCoeff, int    polar)
+    TWaveFormParamDigital( double symbolRate, double interPoint,EFilterType filterType,double filterCoeff , int filterSymbolCnt , int    polar)
     {
         this->symbolRate = symbolRate;
         this->interPoint = interPoint;
         this->filterType = filterType;
         this->filterCoeff = filterCoeff;
+        this->filterSymbolCnt = filterSymbolCnt;
         this->polar = polar;
         this->symbolBuf  = NULL;
         this->symbolCount = 0;
@@ -94,6 +105,7 @@ struct TPModuParam
 };
 
 class RealScaleDraw;
+class QStandardItemModel;
 
 struct TPlotItem
 {
@@ -183,9 +195,9 @@ private slots:
 private:
 
     void getParamBase( TWaveFormParamBase &tWaveParamModuSig );
-    void getParamAModu(TWaveFormParamBase &tWaveParamModuSig );
-    void getParamPulse( TWaveFormParamPulse &tWaveParamPulse );
-    void getParamDigit( TWaveFormParamDigital &tWaveParamDitital );
+    void getParamAModu(TWaveFormParamBase &tWaveParamModuSig );    
+    void getParamDModu( TWaveFormParamDigital &tWaveParamDitital );
+    void getParamPModu( TWaveFormParamPulse &tWaveParamPulse );
 
     void initBitSequenceTableView();
 
@@ -194,6 +206,8 @@ private:
 
     TPlotItem m_tPlotMain;
     TPlotItem m_tPlotModu;
+
+    QStandardItemModel* m_pTableModel;
 
 };
 

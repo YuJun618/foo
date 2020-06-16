@@ -412,7 +412,7 @@
                   <item>
                    <widget class="QLabel" name="label_12">
                     <property name="text">
-                     <string>符号采样点数</string>
+                     <string>符号插值个数</string>
                     </property>
                    </widget>
                   </item>
@@ -425,10 +425,10 @@
                      </size>
                     </property>
                     <property name="maximum">
-                     <double>80000000.000000000000000</double>
+                     <double>7.000000000000000</double>
                     </property>
                     <property name="value">
-                     <double>2.000000000000000</double>
+                     <double>3.000000000000000</double>
                     </property>
                    </widget>
                   </item>
@@ -465,8 +465,14 @@
                       <height>0</height>
                      </size>
                     </property>
+                    <property name="minimum">
+                     <double>1.000000000000000</double>
+                    </property>
+                    <property name="maximum">
+                     <double>32.000000000000000</double>
+                    </property>
                     <property name="value">
-                     <double>50.000000000000000</double>
+                     <double>8.000000000000000</double>
                     </property>
                    </widget>
                   </item>
@@ -489,8 +495,14 @@
                       <height>0</height>
                      </size>
                     </property>
+                    <property name="maximum">
+                     <double>1.000000000000000</double>
+                    </property>
+                    <property name="singleStep">
+                     <double>0.100000000000000</double>
+                    </property>
                     <property name="value">
-                     <double>50.000000000000000</double>
+                     <double>0.500000000000000</double>
                     </property>
                    </widget>
                   </item>
